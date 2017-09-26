@@ -28,11 +28,11 @@
  * do must be completed within 1ms.  Running over the time slot will reset the system.
  */
 
-#include <labs/lab2_led_switch.hpp>
 #include <stdint.h>
 #include "io.hpp"
 #include "periodic_callback.h"
-//My changes
+
+
 
 /// This is the stack size used for each of the period tasks (1Hz, 10Hz, 100Hz, and 1000Hz)
 const uint32_t PERIOD_TASKS_STACK_SIZE_BYTES = (512 * 4);
@@ -43,15 +43,11 @@ const uint32_t PERIOD_TASKS_STACK_SIZE_BYTES = (512 * 4);
  * This stack size is also used while calling the period_init() and period_reg_tlm(), and if you use
  * printf inside these functions, you need about 1500 bytes minimum
  */
-const uint32_t PERIOD_DISPATCHER_TASK_STACK_SIZE_BYTES = (512 * 3);
+const uint32_t PERIOD_MONITOR_TASK_STACK_SIZE_BYTES = (512 * 3);
 
 /// Called once before the RTOS is started, this is a good place to initialize things once
 bool period_init(void)
 {
-    #if LAB2_LEDSWTICH
-    init_switch_board();
-    #endif
-
     return true; // Must return true upon success
 }
 
@@ -63,27 +59,29 @@ bool period_reg_tlm(void)
 }
 
 
+/**
+ * Below are your periodic functions.
+ * The argument 'count' is the number of times each periodic task is called.
+ */
 
-void period_1Hz(void)
+void period_1Hz(uint32_t count)
 {
-
+    LE.toggle(1);
 }
 
-void period_10Hz(void)
+void period_10Hz(uint32_t count)
 {
-    #if LAB2_LEDSWTICH
-    process_switch_input();
-    #endif
+    LE.toggle(2);
 }
 
-void period_100Hz(void)
+void period_100Hz(uint32_t count)
 {
-
+    LE.toggle(3);
 }
 
-void period_1000Hz(void)
+// 1Khz (1ms) is only run if Periodic Dispatcher was configured to run it at main():
+// scheduler_add_task(new periodicSchedulerTask(run_1Khz = true));
+void period_1000Hz(uint32_t count)
 {
-
+    LE.toggle(4);
 }
-
-

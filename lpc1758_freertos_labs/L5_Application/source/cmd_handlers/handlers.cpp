@@ -41,37 +41,16 @@
 #include "io.hpp"
 #include "shared_handles.h"
 #include "scheduler_task.hpp"
+
 #include "c_tlm_stream.h"
 #include "c_tlm_var.h"
-#include "labs.h"
 
-#if LAB1_HELLOWORLD
-CMD_HANDLER_FUNC(sensorHandler)
-{
-   unsigned int value=0;
-   unsigned int option=0;
-   cmdParams.scanf("%u %u", &option, &value);
-   switch(option)
-   {
-      case 1:printf("Light Sensor: %i LUX \n", (int)LS.getRawValue());
-             break;
-      case 2:printf("Temperature Sensor: %i F \n", (int)TS.getFarenheit());
-             break;
-      case 3:printf("Acceleration: x: %4i y:%4i z:%4i\n", AS.getX(), AS.getY(), AS.getZ());
-             break;
-      case 4:printf("Displaying number in LED\n");
-             LD.setNumber(value);
-             break;
-      default:printf("Invalid entry\n");
-              break;
-    }
-    return true;
-}
-#endif
+
 
 CMD_HANDLER_FUNC(taskListHandler)
 {
-#if (1 == configUSE_TRACE_FACILITY)
+    // Note:  If there is a linker error and the FreeRTOS function is not included, just
+    // hack tasks.c at FreeRTOS source code and force include uxTaskGetSystemState()
     const int delayInMs = (int)cmdParams;  // cast parameter str to integer
 
     if(delayInMs > 0) {
@@ -121,9 +100,6 @@ CMD_HANDLER_FUNC(taskListHandler)
     if (uxTaskGetNumberOfTasks() > maxTasks) {
         output.printf("** WARNING: Only reported first %u tasks\n", maxTasks);
     }
-#else
-    output.printf("OOPS, I can't do this for you.  Please set configUSE_TRACE_FACILITY to 1 at FreeRTOSConfig.h\n");
-#endif
 
     return true;
 }

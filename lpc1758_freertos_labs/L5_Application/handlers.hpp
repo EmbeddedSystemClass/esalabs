@@ -24,13 +24,8 @@
 #define HANDLERS_HPP_
 
 #include "command_handler.hpp"
-#include "labs.h"
 
 
-#if LAB1_HELLOWORLD
-//Handler to read sensor value
-CMD_HANDLER_FUNC(sensorHandler);
-#endif
 
 /// Handler for task list & CPU Information
 CMD_HANDLER_FUNC(taskListHandler);

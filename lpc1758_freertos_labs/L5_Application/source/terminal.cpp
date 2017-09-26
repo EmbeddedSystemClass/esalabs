@@ -37,7 +37,7 @@
 #include "c_tlm_comp.h"
 #include "c_tlm_stream.h"
 #include "c_tlm_binary.h"
-#include "labs.h"
+
 
 
 #define MAX_COMMANDLINE_INPUT   128              ///< Max characters for command-line input
@@ -71,14 +71,6 @@ bool terminalTask::taskEntry()
     CommandProcessor &cp = mCmdProc;
 
     // System information handlers
-    #if LAB1_HELLOWORLD
-    cp.addHandler(sensorHandler, "sensor", "Select sensor menu to display its reading(eg. cmd for light sensor : sensor 1 )\n"
-                                           "1.Light Sensor \n"
-                                           "2.Temperature Sensor \n"
-                                           "3.Acceleration Sensor \n"
-                                           "4.Display value on LED (eg. sensor 4 88)");
-    #endif
-
     cp.addHandler(taskListHandler, "info",    "Task/CPU Info.  Use 'info 200' to get CPU during 200ms");
     cp.addHandler(memInfoHandler,  "meminfo", "See memory info");
     cp.addHandler(healthHandler,   "health",  "Output system health");

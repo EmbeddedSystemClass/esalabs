@@ -25,7 +25,6 @@
  */
 #include "tasks.hpp"
 #include "examples/examples.hpp"
-#include "labs.h"
 
 /**
  * The main() creates tasks or "threads".  See the documentation of scheduler_task class at scheduler_task.hpp
@@ -59,11 +58,12 @@ int main(void)
     scheduler_add_task(new wirelessTask(PRIORITY_CRITICAL));
 
     /* Change "#if 0" to "#if 1" to run period tasks; @see period_callbacks.cpp */
-    #if 1
-    scheduler_add_task(new periodicSchedulerTask());
+    #if 0
+    const bool run_1Khz = false;
+    scheduler_add_task(new periodicSchedulerTask(run_1Khz));
     #endif
 
-    /* The task for the IR receiver */
+    /* The task for the IR receiver to "learn" IR codes */
     // scheduler_add_task(new remoteTask  (PRIORITY_LOW));
 
     /* Your tasks should probably used PRIORITY_MEDIUM or PRIORITY_LOW because you want the terminal
